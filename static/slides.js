@@ -212,6 +212,11 @@ function prevSlide() {
     updateSlides();
   }
 
+  if (curSlide - 2 >= 0) {
+    /* MathJAX render revealed slide */
+    MathJax.Hub.Queue(["Reprocess", MathJax.Hub, slideEls[curSlide-2]]);
+  }
+
   if (notesEnabled) localStorage.setItem('destSlide', curSlide);
 };
 
@@ -221,6 +226,11 @@ function nextSlide() {
     curSlide++;
 
     updateSlides();
+  }
+
+  if (curSlide + 2 < slideEls.length -1 ) {
+    /* MathJAX render revealed slide */
+    MathJax.Hub.Queue(["Reprocess", MathJax.Hub, slideEls[curSlide+2]]);
   }
 
   if (notesEnabled) localStorage.setItem('destSlide', curSlide);
@@ -472,6 +482,13 @@ function addGeneralStyle() {
   var el = document.createElement('meta');
   el.name = 'apple-mobile-web-app-capable';
   el.content = 'yes';
+  document.querySelector('head').appendChild(el);
+
+  /* MathJAX */
+  var el = document.createElement('script');
+  el.type = 'text/javascript';
+  el.src = 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  el.async = true;
   document.querySelector('head').appendChild(el);
 };
 
